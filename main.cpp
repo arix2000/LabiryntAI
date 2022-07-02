@@ -6,36 +6,53 @@
 
 using namespace std;
 
+const char ENTRANCE = 'I';
+const char EXIT = 'O';
+const char WALL = '#';
+const char ROAD = ' ';
+const char EXPLORED = 'e';
+
+const int ROW = 12;
+const int COLUMN = 20;
+
+char maze[ROW][COLUMN] =
+{
+    "########I##########",
+    "#      #   # #  # #",
+    "# ###### # # ## # #",
+    "#   #    #        #",
+    "### # #############",
+    "#         #   #   #",
+    "# #######   #   # #",
+    "# #     # ####### #",
+    "# # #####  #    # #",
+    "# # #   # ### # # #",
+    "#   # #    ## #   #",
+    "#############O#####",
+};
+
+Position getMazeEntrancePosition()
+{
+    Position entrancePosition;
+
+    for (int i = 0; i < ROW; i++)
+    {
+        for (int j = 0; j < COLUMN; j++)
+        {
+            if (maze[i][j] == ENTRANCE)
+            {
+                entrancePosition.x = i;
+                entrancePosition.y = j;
+            }
+        }
+    }
+
+    return entrancePosition;
+}
+
 int entryPoint()
 {
-    const char ENTRANCE = 'I';
-    const char EXIT = 'O';
-    const char WALL = '#';
-    const char ROAD = ' ';
-    const char EXPLORED = 'e';
-
-    const int ROW = 12;
-    const int COLUMN = 20;
-
-    char maze[ROW][COLUMN] =
-    {
-        "########I##########",
-        "#      #   # #  # #",
-        "# ###### # # ## # #",
-        "#   #    #        #",
-        "### # #############",
-        "#         #   #   #",
-        "# #######   #   # #",
-        "# #     # ####### #",
-        "# # #####  #    # #",
-        "# # #   # ### # # #",
-        "#   # #    ## #   #",
-        "#############O#####",
-    };
-
-    Position mazeEntrance;
-    mazeEntrance.x = 0;
-    mazeEntrance.y = 8;
+    Position mazeEntrance = getMazeEntrancePosition();
 
     // Make two copies of the original map
     char mazeCopy[ROW][COLUMN];   // Used to calculate the path
