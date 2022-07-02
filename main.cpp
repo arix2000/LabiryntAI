@@ -14,29 +14,33 @@ int entryPoint()
     const char ROAD = ' ';
     const char EXPLORED = 'e';
 
-    const int ROW = 8;
-    const int COLUMN = 16;
+    const int ROW = 12;
+    const int COLUMN = 20;
 
     char maze[ROW][COLUMN] =
     {
-        "######I########",
-        "### ##  ##   ##",
-        "# #  ##    # ##",
-        "# ## ### ### ##",
-        "#      ###   ##",
-        "### ## ##### ##",
-        "##  ##       ##",
-        "###O###########",
+        "########I##########",
+        "#      #   # #  # #",
+        "# ###### # # ## # #",
+        "#   #    #        #",
+        "### # #############",
+        "#         #   #   #",
+        "# #######   #   # #",
+        "# #     # ####### #",
+        "# # #####  #    # #",
+        "# # #   # ### # # #",
+        "#   # #    ## #   #",
+        "#############O#####",
     };
 
     Position mazeEntrance;
     mazeEntrance.x = 0;
-    mazeEntrance.y = 6;
+    mazeEntrance.y = 8;
 
     // Make two copies of the original map
     char mazeCopy[ROW][COLUMN];   // Used to calculate the path
     char mazeDisplay[ROW][COLUMN];   // Used to display the path
-    
+
     for (int i = 0; i < ROW; i++)
     {
         for (int j = 0; j < COLUMN; j++)
@@ -46,14 +50,14 @@ int entryPoint()
         }
     }
 
-    Stack path(ROW*COLUMN);
+    Stack path(ROW * COLUMN);
 
     Position currentPosition;
 
     currentPosition = mazeEntrance;
 
     while (true)
-    {   
+    {
         if (mazeCopy[currentPosition.x][currentPosition.y] == EXIT) break;
 
         // Get the maze element at each direction of the current position
@@ -63,7 +67,7 @@ int entryPoint()
         char positionLeft = mazeCopy[currentPosition.x][currentPosition.y - 1];
 
         // Mark this position as explored, then go up one position
-        if (( positionUp == ROAD || positionUp == EXIT ) && currentPosition.x - 1 >= 0)
+        if ((positionUp == ROAD || positionUp == EXIT) && currentPosition.x - 1 >= 0)
         {
             path.Push(currentPosition);
             mazeCopy[currentPosition.x][currentPosition.y] = EXPLORED;
@@ -71,7 +75,7 @@ int entryPoint()
         }
 
         // Mark this position as explored, then go right one position
-        else if (( positionRight == ROAD || positionRight == EXIT) && currentPosition.y + 1 < COLUMN)
+        else if ((positionRight == ROAD || positionRight == EXIT) && currentPosition.y + 1 < COLUMN)
         {
             path.Push(currentPosition);
             mazeCopy[currentPosition.x][currentPosition.y] = EXPLORED;
@@ -101,10 +105,10 @@ int entryPoint()
             currentPosition = path.Pop();
         }
     }
-    
+
     int finalSize = path.GetLength();
 
-    Position *rightPath = new Position[ROW*COLUMN];
+    Position* rightPath = new Position[ROW * COLUMN];
 
     for (int i = finalSize - 1; i >= 0; i--)
     {
