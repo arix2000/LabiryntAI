@@ -1,6 +1,10 @@
 
 #include <iostream>
 #include <windows.h>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <sstream>
 #include "Stack.h"
 #include "Position.h"
 
@@ -12,24 +16,26 @@ const char WALL = '#';
 const char ROAD = ' ';
 const char EXPLORED = 'e';
 
-const int ROW = 12;
-const int COLUMN = 20;
+const int ROW = 18;
+const int COLUMN = 48;
 
-char maze[ROW][COLUMN] =
-{
-    "########I##########",
-    "#      #   # #  # #",
-    "# ###### # # ## # #",
-    "#   #    #        #",
-    "### # #############",
-    "#         #   #   #",
-    "# #######   #   # #",
-    "# #     # ####### #",
-    "# # #####  #    # #",
-    "# # #   # ### # # #",
-    "#   # #    ## #   #",
-    "#############O#####",
-};
+const int SLEEP_TIME = 200;
+
+char maze[ROW][COLUMN];
+
+void setupMazeFromFile() {
+    fstream fin("maze1.txt");
+    string line;
+
+    int i = 0;
+    while (fin && getline(fin, line))
+    {
+        for (int j = 0; j < COLUMN-1; j++) {
+            maze[i][j] = line[j];
+        }
+        i++;
+    }
+}
 
 Position getMazeEntrancePosition()
 {
@@ -52,6 +58,8 @@ Position getMazeEntrancePosition()
 
 int entryPoint()
 {
+    setupMazeFromFile();
+    //setupMazeFromFile();
     Position mazeEntrance = getMazeEntrancePosition();
 
     // Make two copies of the original map
@@ -88,6 +96,19 @@ int entryPoint()
         {
             path.Push(currentPosition);
             mazeCopy[currentPosition.x][currentPosition.y] = EXPLORED;
+            system("cls");
+            cout << mazeCopy[currentPosition.x][currentPosition.y];
+
+            for (int a = 0; a < ROW; a++)
+            {
+                for (int b = 0; b < COLUMN; b++)
+                {
+                    cout << mazeCopy[a][b];
+                }
+                cout << endl;
+            }
+
+            Sleep(SLEEP_TIME);
             currentPosition.x--;
         }
 
@@ -96,6 +117,19 @@ int entryPoint()
         {
             path.Push(currentPosition);
             mazeCopy[currentPosition.x][currentPosition.y] = EXPLORED;
+            system("cls");
+            cout << mazeCopy[currentPosition.x][currentPosition.y];
+
+            for (int a = 0; a < ROW; a++)
+            {
+                for (int b = 0; b < COLUMN; b++)
+                {
+                    cout << mazeCopy[a][b];
+                }
+                cout << endl;
+            }
+
+            Sleep(SLEEP_TIME);
             currentPosition.y++;
         }
 
@@ -104,6 +138,19 @@ int entryPoint()
         {
             path.Push(currentPosition);
             mazeCopy[currentPosition.x][currentPosition.y] = EXPLORED;
+            system("cls");
+            cout << mazeCopy[currentPosition.x][currentPosition.y];
+
+            for (int a = 0; a < ROW; a++)
+            {
+                for (int b = 0; b < COLUMN; b++)
+                {
+                    cout << mazeCopy[a][b];
+                }
+                cout << endl;
+            }
+
+            Sleep(SLEEP_TIME);
             currentPosition.x++;
         }
 
@@ -112,6 +159,19 @@ int entryPoint()
         {
             path.Push(currentPosition);
             mazeCopy[currentPosition.x][currentPosition.y] = EXPLORED;
+            system("cls");
+            cout << mazeCopy[currentPosition.x][currentPosition.y];
+
+            for (int a = 0; a < ROW; a++)
+            {
+                for (int b = 0; b < COLUMN; b++)
+                {
+                    cout << mazeCopy[a][b];
+                }
+                cout << endl;
+            }
+
+            Sleep(SLEEP_TIME);
             currentPosition.y--;
         }
 
@@ -119,6 +179,18 @@ int entryPoint()
         else
         {
             mazeCopy[currentPosition.x][currentPosition.y] = WALL;
+            cout << mazeCopy[currentPosition.x][currentPosition.y];
+            system("cls");
+            for (int a = 0; a < ROW; a++)
+            {
+                for (int b = 0; b < COLUMN; b++)
+                {
+                    cout << mazeCopy[a][b];
+                }
+                cout << endl;
+            }
+
+            Sleep(SLEEP_TIME);
             currentPosition = path.Pop();
         }
     }
@@ -133,11 +205,11 @@ int entryPoint()
     }
 
 
-
     // Output the Animation of Walking the path
 
     for (int i = 0; i < finalSize; i++)
     {
+        system("cls");
         cout << "Maze" << endl;
         Position tempPosition = rightPath[i];
         mazeDisplay[tempPosition.x][tempPosition.y] = '*';
@@ -151,26 +223,14 @@ int entryPoint()
             cout << endl;
         }
 
-        Sleep(200);
-        system("cls");
-        mazeDisplay[tempPosition.x][tempPosition.y] = ' ';
+        Sleep(SLEEP_TIME);
+        mazeDisplay[tempPosition.x][tempPosition.y] = 'x';
     }
 
 
 
     // Print out the complete path
 
-    cout << "Original Map: " << endl;
-    for (int a = 0; a < ROW; a++)
-    {
-        for (int b = 0; b < COLUMN; b++)
-        {
-            cout << maze[a][b];
-        }
-        cout << endl;
-    }
-
-    cout << endl;
     cout << "Right Path: " << endl;
 
     for (int i = 0; i < finalSize; i++)
