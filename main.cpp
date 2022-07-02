@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int main()
+int entryPoint()
 {
     const char ENTRANCE = 'I';
     const char EXIT = 'O';

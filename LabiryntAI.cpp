@@ -2,11 +2,13 @@
 //
 
 #include <iostream>
+#include "main.cpp"
+
 using namespace std;
 
 int main()
 {
-    cout << "Hello World!\n";
+    entryPoint();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
